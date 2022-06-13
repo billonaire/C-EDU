@@ -1,0 +1,90 @@
+/*
+
+n명의 사람이 원형으로 배치
+특정 위치에 출발해서 원을 따라 사람을 세어 m번째 사람을 처형
+원은 줄어듬
+n =8, m=4 일때 처형순서는 54613872
+n=24, m=11 일때의 처형순서는?
+
++4씩 계속 오른쪽으로, 선택되면 삭제 
+ㅁㄴㅇㄹㅋㅌㅊㅍ
+없어지는 순서를 적어라.
+
+배열 인덱스는 01234567
+
+n = 8
+m = 4 일때,
+
+0숫자를 세다가 4번쨰 0일떄 1<n까지 마크 시작
+if i == n이면 0부터 다시 돌아 
+
+00000000
+00010000
+00010002
+00013002
+04013002
+54013002
+54613002
+54613072
+54613872
+
+n = 24, m = 11 라면
+000000000000000000000000
+000000000010000000000000
+000000000010000000000200
+
+기본적인 직접계산으로도 풀수가 있어야 한다.
+
+매개변수빼고 반복되는 공식이란?
+
+
+
+	
+
+0이 아니면 다음 인덱스로 넘어간다.
+
+
+*/
+
+
+#include<iostream> // cout 쓰려면 필요
+#include<vector>
+using namespace std;
+
+void Josephus(int leftDead, int ruleCount) {
+	
+	vector<int> makeCircle(leftDead);
+	
+	int count = 0;
+	int tempNumber = 0;
+	
+	for(int i = 0; tempNumber != leftDead; i++)
+	{
+		if (i == leftDead)					// i에 제한을 걸어주고
+		{ 
+			i = 0;							//  0부터 다시 루프를 돌게 한다.
+		}
+
+		if (makeCircle[i] == 0)				// 인덱스를 순회하면서 0의 개수를 센다.
+		{	
+			count++;						// 카운트를 올린다.
+			
+			if (count % ruleCount == 0)		// 카운트가 ruleCount의 배수가 되면
+			{
+				tempNumber++;               // 임시 숫자에 1을 더하고
+				makeCircle[i] = tempNumber; // 그 임시 숫자를 배열에 입력한다.
+			}
+		}
+	}
+
+	for (auto i : makeCircle)
+	{
+		cout << i << endl;
+	}
+
+}
+
+
+int main() {
+	Josephus(24,11);
+}
